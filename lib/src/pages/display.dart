@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Display extends StatefulWidget {
-  static const Key _empty = ValueKey("Display");
   final String value;
   final void Function() doOnInit;
-  const Display(
-    this.value,
-    this.doOnInit,
-    {
-      Key key:  _empty
-    }
-  ) : super(key: key);
+  const Display({
+    @required this.value,
+    @required this.doOnInit,
+    Key key  
+  }) : super(key: key);
 
   @override
   _DisplayState createState() => _DisplayState();

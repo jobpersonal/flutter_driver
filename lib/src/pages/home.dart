@@ -9,9 +9,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final TextEditingController _controller = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalObjectKey('key');
+  var _controller;
+  final GlobalKey<FormState> _formKey = GlobalKey();
   String _errorText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +62,9 @@ class _HomeState extends State<Home> {
                   fontSize: 19
                 ),
                 controller: _controller,
-                onChanged: (value) => value.isNotEmpty 
-                  ? setState( () => _errorText = '' )
-                  : setState( () => null ),
+                validator: (value) => value.isEmpty 
+                ? 'Input at least one character' 
+                : null,
               ),
             )
           ),
@@ -61,18 +73,17 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.arrow_forward_rounded),
         onPressed: () {
-          if (_controller.text.isNotEmpty){
-            Navigator.push(
-              context,
+          if (_formKey.currentState.validate()) {
+            Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => Display('${_controller.text}', () {},)
-              )
+                builder: (context) {
+                  return Display(
+                    value: _controller.text,
+                    doOnInit: () => Future.microtask(() => _controller.clear()),
+                  );
+                },
+              ),
             );
-            setState(() => _controller.text = '' );
-          } else {
-            setState(() {
-              _errorText = 'Input cannot be empty!';
-            });
           }
         },
       ),
