@@ -2,8 +2,8 @@ package com.example.driver_app;
 
 import androidx.test.rule.ActivityTestRule;
 import dev.flutter.plugins.integration_test.FlutterTestRunner;
-import org.unit.Rule;
-import org.unit.runner.RunWith;
+import org.junit.Rule;
+import org.junit.runner.RunWith;
 import com.example.driver_app.MainActivity;
 
 @RunWith(FlutterTestRunner.class)
